@@ -8,7 +8,8 @@
 
 * {
   margin: 0;
-	font-family: 'Inter'; font-weight: 400;
+  font-family: 'Inter';
+  font-weight: 400;
 }
 
 body {
@@ -47,11 +48,17 @@ h6 {
 
 .container {
   max-width: 1000px;
-	margin: 0 auto;
-	padding: 13px 36px 0 36px;
+  margin: 0 auto;
+  padding: 13px 36px 0 36px;
 }
 
 .error {
-	justify-self: center;
-	margin-top: 150px;
+  justify-self: center;
+  margin-top: 150px;
+}
+
+@media (max-width: 880px) {
+  .container {
+    padding: 6px 10px 0 10px;
+  }
 }
