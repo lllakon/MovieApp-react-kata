@@ -98,8 +98,8 @@ const MoviesList = ({ searchQuery, currentTab }) => {
 };
 
 MoviesList.propTypes = {
-	searchQuery: PropTypes.string.isRequired,
-	currentTab: PropTypes.oneOf(['search', 'rated']).isRequired,
+  searchQuery: PropTypes.string.isRequired,
+  currentTab: PropTypes.oneOf(['search', 'rated']).isRequired,
 };
 
 export default MoviesList;
