@@ -16,3 +16,4 @@ export const fetchGenres = async () => {
 
   return await response.json();
 };
+
