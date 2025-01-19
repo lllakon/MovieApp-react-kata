@@ -1,5 +1,5 @@
 const apiToken = import.meta.env.VITE_API_TOKEN;
-const API_URL = '/api/proxy?path=';
+const API_URL = 'https://api.themoviedb.org/3';
 
 export const fetchData = async (searchQuery, page = 1) => {
   let params;
@@ -7,12 +7,12 @@ export const fetchData = async (searchQuery, page = 1) => {
 
   const routes = {
     search: {
-      default: 'trending/movie/week?language=en-US',
-      query: `search/movie?query=${searchQuery}&include_adult=true&language=en-US`,
+      default: '/trending/movie/week?language=en-US',
+      query: `/search/movie?query=${searchQuery}&include_adult=true&language=en-US`,
     },
     rated: {
-      default: 'movie/top_rated?language=en-US',
-      query: `search/movie?query=${searchQuery}&include_adult=true&language=en-US`,
+      default: '/movie/top_rated?language=en-US',
+      query: `/search/movie?query=${searchQuery}&include_adult=true&language=en-US`,
     },
   };
 
@@ -22,13 +22,13 @@ export const fetchData = async (searchQuery, page = 1) => {
     params = routes.search.query;
   }
 
-
   const response = await fetch(`${API_URL}${params}&page=${page}`, {
     method: 'GET',
-    mode: 'cors',
+		mode: 'cors',
     headers: {
       Authorization: `Bearer ${apiToken}`,
       'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*',
     },
   });
 
