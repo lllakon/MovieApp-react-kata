@@ -12,7 +12,7 @@ const MovieCard = ({ moviesData, genresById }) => {
         return (
           <div key={movie.id} className={style.card}>
             <img
-              src={movie.poster_path === null ? noPosterImg : `http://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              src={movie.poster_path === null ? noPosterImg : `https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
               alt="Movie poster"
               className={style.poster}
             />
