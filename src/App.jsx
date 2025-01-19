@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { Alert } from 'antd';
+import { Offline, Online } from 'react-detect-offline';
+
 import HeadTabs from './components/HeadTabs/HeadTabs';
 import SearchInput from './components/SearchInput/SearchInput';
 import MoviesList from './components/MoviesList/MoviesList';
@@ -10,9 +13,17 @@ function App() {
 
   return (
     <div className="container">
-      <HeadTabs setCurrentTab={setCurrentTab} />
-      <SearchInput setSearchQuery={setSearchQuery} />
-      <MoviesList searchQuery={searchQuery} currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      <Online>
+        <HeadTabs setCurrentTab={setCurrentTab} />
+        <SearchInput setSearchQuery={setSearchQuery} />
+        <MoviesList searchQuery={searchQuery} currentTab={currentTab} />
+      </Online>
+
+      <Offline>
+        <div className="offline">
+          <Alert style={{padding: '40px 80px'}} type="error" message={`You're offline right now. Check your connection.`} />
+        </div>
+      </Offline>
     </div>
   );
 }

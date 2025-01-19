@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Flex, Pagination } from 'antd';
+import { Flex, Pagination, Spin, Alert } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+
 import { fetchData } from '../../api/fetchData';
 import { fetchGenres } from '../../api/fetchGenres';
 import MovieCard from '../MovieCard/MovieCard';
 
 import style from './MoviesList.module.css';
 
-const MoviesList = ({searchQuery, currentTab}) => {
+const MoviesList = ({ searchQuery, currentTab }) => {
   const [movies, setMovies] = useState([]);
   const [genresList, setGenresList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,10 +17,12 @@ const MoviesList = ({searchQuery, currentTab}) => {
 
   useEffect(() => {
     const fetchDataFromAPI = async () => {
+      if (searchQuery !== '' && currentPage !== 1) setCurrentPage(1);
       setLoading(true);
+
       try {
-        const movies = await fetchData(searchQuery, currentPage, currentTab);
-        setMovies(movies.results);
+        const res = await fetchData(searchQuery, currentPage, currentTab);
+        setMovies(res.results);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -49,17 +53,31 @@ const MoviesList = ({searchQuery, currentTab}) => {
   }
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <Spin
+        style={{ display: 'flex', justifyContent: 'center', marginTop: '140px' }}
+        indicator={<LoadingOutlined spin style={{ fontSize: 48 }} />}
+      />
+    );
   }
 
   if (error) {
-		console.error(error)
+    console.error(error);
     return (
       <div className="error">
-        <h3>Failed to load data 🙁</h3>
-        <p>{error}</p>
+        <Alert
+          message="Something went wrong 🙁"
+          description={error}
+          type="error"
+          showIcon
+          style={{ padding: '40px 70px' }}
+        />
       </div>
     );
+  }
+
+  if (movies.length === 0) {
+    return <Alert message="Nothing found" description="Try changing your search query" type="info" showIcon />;
   }
 
   return (
@@ -70,7 +88,7 @@ const MoviesList = ({searchQuery, currentTab}) => {
       <Pagination
         current={currentPage}
         total={50}
-        pageSize={10}
+        // pageSize={20}
         onChange={handlePageChange}
         align="center"
         style={{ marginBottom: '17px', marginTop: '36px' }}
