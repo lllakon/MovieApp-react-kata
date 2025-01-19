@@ -24,7 +24,6 @@ export const fetchData = async (searchQuery, page = 1) => {
 
   const response = await fetch(`${API_URL}${params}&page=${page}`, {
     method: 'GET',
-    mode: 'cors',
     headers: {
       Authorization: `Bearer ${apiToken}`,
       'Content-Type': 'application/json',
