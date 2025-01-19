@@ -29,7 +29,7 @@ const SearchInput = ({ setSearchQuery }) => {
 };
 
 SearchInput.propTypes = {
-  setSearchQuery: PropTypes.fnc,
+  setSearchQuery: PropTypes.func,
 };
 
 export default SearchInput;
