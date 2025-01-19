@@ -6,7 +6,6 @@ import noPosterImg from '../../img/noImage.png';
 import style from './MovieCard.module.css';
 
 const MovieCard = ({ moviesData, genresById }) => {
-
   return (
     <>
       {moviesData.map((movie) => {

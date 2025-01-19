@@ -11,7 +11,6 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentTab, setCurrentTab] = useState('search');
 
-	/// Truncate text неправильно используется как хук
   return (
     <div className="container">
       <Online>
@@ -22,7 +21,11 @@ function App() {
 
       <Offline>
         <div className="offline">
-          <Alert style={{padding: '40px 80px'}} type="error" message={`You're offline right now. Check your connection.`} />
+          <Alert
+            style={{ padding: '40px 80px' }}
+            type="error"
+            message={`You're offline right now. Check your connection.`}
+          />
         </div>
       </Offline>
     </div>
