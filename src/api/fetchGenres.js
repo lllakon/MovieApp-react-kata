@@ -1,5 +1,4 @@
-import { TOKEN } from './authToken';
-
+const apiToken = import.meta.env.VITE_API_TOKEN;
 const API_URL = 'https://api.themoviedb.org/3/genre/movie/list?language=en';
 
 export const fetchGenres = async () => {
@@ -7,7 +6,7 @@ export const fetchGenres = async () => {
     const response = await fetch(`${API_URL}`, {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${TOKEN}`,
+        Authorization: `Bearer ${apiToken}`,
         'Content-Type': 'application/json',
       },
     });

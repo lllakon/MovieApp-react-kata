@@ -1,6 +1,7 @@
-import { TOKEN } from './authToken';
-
+const apiToken = import.meta.env.VITE_API_TOKEN;
 const API_URL = 'https://api.themoviedb.org/3';
+
+console.log(apiToken)
 
 export const fetchData = async (searchQuery, page = 1) => {
   let params;
@@ -27,7 +28,7 @@ export const fetchData = async (searchQuery, page = 1) => {
     const response = await fetch(`${API_URL}${params}&page=${page}`, {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${TOKEN}`,
+        Authorization: `Bearer ${apiToken}`,
         'Content-Type': 'application/json',
       },
     });
