@@ -11,6 +11,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentTab, setCurrentTab] = useState('search');
 
+	/// Truncate text неправильно используется как хук
   return (
     <div className="container">
       <Online>

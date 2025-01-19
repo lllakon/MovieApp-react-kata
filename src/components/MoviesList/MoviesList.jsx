@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Flex, Pagination, Spin, Alert } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
@@ -35,7 +36,7 @@ const MoviesList = ({ searchQuery, currentTab }) => {
         const genres = await fetchGenres();
         setGenresList(genres.genres);
       } catch (error) {
-        throw new Error('Failed to get list of genres');
+        throw new Error('Failed to get list of genres', error);
       }
     };
 
@@ -88,13 +89,17 @@ const MoviesList = ({ searchQuery, currentTab }) => {
       <Pagination
         current={currentPage}
         total={50}
-        // pageSize={20}
         onChange={handlePageChange}
         align="center"
         style={{ marginBottom: '17px', marginTop: '36px' }}
       />
     </section>
   );
+};
+
+MoviesList.propTypes = {
+	searchQuery: PropTypes.string.isRequired,
+	currentTab: PropTypes.oneOf(['search', 'rated']).isRequired,
 };
 
 export default MoviesList;

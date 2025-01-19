@@ -1,13 +1,12 @@
-import { Input } from 'antd';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Input } from 'antd';
 
 const SearchInput = ({ setSearchQuery }) => {
-
   const [debounceTimeout, setDebounceTimeout] = useState(null);
 
   const handleInputChange = (event) => {
     const value = event.target.value.trimStart();
-
 
     // Очистка предыдущего таймера
     if (debounceTimeout) {
@@ -22,11 +21,15 @@ const SearchInput = ({ setSearchQuery }) => {
     setDebounceTimeout(timeout);
   };
   return (
-    <Input 
-      placeholder="Type to search..." 
+    <Input
+      placeholder="Type to search..."
       onChange={handleInputChange} // Добавляем обработчик изменения текста
     />
   );
+};
+
+SearchInput.propTypes = {
+  setSearchQuery: PropTypes.fnc,
 };
 
 export default SearchInput;

@@ -1,7 +1,9 @@
+import PropTypes from 'prop-types';
 import { Tabs } from 'antd';
 import { fetchData } from '../../api/fetchData';
-import style from './HeadTabs.module.css';
 import { useEffect } from 'react';
+
+import style from './HeadTabs.module.css';
 
 const HeadTabs = ({ setCurrentTab }) => {
   useEffect(() => {
@@ -26,6 +28,10 @@ const HeadTabs = ({ setCurrentTab }) => {
   };
 
   return <Tabs className={style.tabs} defaultActiveKey="1" items={items} onChange={onChange} />;
+};
+
+HeadTabs.propTypes = {
+  setCurrentTab: PropTypes.func.isRequired,
 };
 
 export default HeadTabs;

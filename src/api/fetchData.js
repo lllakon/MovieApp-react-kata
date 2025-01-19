@@ -1,8 +1,6 @@
 const apiToken = import.meta.env.VITE_API_TOKEN;
 const API_URL = 'https://api.themoviedb.org/3';
 
-console.log(apiToken)
-
 export const fetchData = async (searchQuery, page = 1) => {
   let params;
   let currentTab = sessionStorage.getItem('tab');
@@ -24,21 +22,17 @@ export const fetchData = async (searchQuery, page = 1) => {
     params = routes.search.query;
   }
 
-  try {
-    const response = await fetch(`${API_URL}${params}&page=${page}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${apiToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
+  const response = await fetch(`${API_URL}${params}&page=${page}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${apiToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw error;
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
   }
+
+  return await response.json();
 };

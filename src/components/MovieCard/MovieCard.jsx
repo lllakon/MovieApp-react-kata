@@ -1,14 +1,15 @@
+import PropTypes from 'prop-types';
 import { Rate } from 'antd';
-import useTruncateText from '../../hooks/useTruncateText';
+import truncateText from '../../utils/truncateText';
 
 import noPosterImg from '../../img/noImage.png';
 import style from './MovieCard.module.css';
 
 const MovieCard = ({ moviesData, genresById }) => {
+
   return (
     <>
       {moviesData.map((movie) => {
-        const textRef = useTruncateText(movie.overview, 133);
         return (
           <div key={movie.id} className={style.card}>
             <img
@@ -24,9 +25,7 @@ const MovieCard = ({ moviesData, genresById }) => {
                   <span key={index}>{genre}</span>
                 ))}
               </div>
-              <p className={style.description} ref={textRef}>
-                {movie.overview}
-              </p>
+              <p className={style.description}>{truncateText(movie.overview, 173)}</p>
               <div className={style.stars}>
                 <Rate count={10} disabled defaultValue={movie.vote_average} />
               </div>
@@ -39,6 +38,21 @@ const MovieCard = ({ moviesData, genresById }) => {
       })}
     </>
   );
+};
+
+MovieCard.propTypes = {
+  moviesData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      release_date: PropTypes.string,
+      genre_ids: PropTypes.arrayOf(PropTypes.number),
+      overview: PropTypes.string,
+      poster_path: PropTypes.string,
+      vote_average: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  genresById: PropTypes.func,
 };
 
 export default MovieCard;
