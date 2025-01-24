@@ -1,3 +1,7 @@
 .MoviesList {
   margin-top: 34px;
 }
+
+:global(.ant-pagination-options) {
+  display: none !important;
+}

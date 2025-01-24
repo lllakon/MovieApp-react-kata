@@ -15,6 +15,7 @@ const MoviesList = ({ searchQuery, currentTab }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     const fetchDataFromAPI = async () => {
@@ -23,7 +24,10 @@ const MoviesList = ({ searchQuery, currentTab }) => {
 
       try {
         const res = await fetchData(searchQuery, currentPage, currentTab);
+        console.log(res);
         setMovies(res.results);
+        setTotalPages(res.total_pages);
+        console.log(totalPages);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -88,7 +92,7 @@ const MoviesList = ({ searchQuery, currentTab }) => {
       </Flex>
       <Pagination
         current={currentPage}
-        total={50}
+        total={totalPages}
         onChange={handlePageChange}
         align="center"
         style={{ marginBottom: '17px', marginTop: '36px' }}

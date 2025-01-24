@@ -1,9 +1,26 @@
 const apiToken = import.meta.env.VITE_API_TOKEN;
 const API_URL = 'https://api.themoviedb.org/3';
 
+const fetchAccountId = async () => {
+  const response = await fetch(`${API_URL}/account`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${apiToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch account ID. HTTP status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.id;
+};
+
 export const fetchData = async (searchQuery, page = 1) => {
   let params;
-  let currentTab = sessionStorage.getItem('tab');
+  const currentTab = sessionStorage.getItem('tab');
 
   const routes = {
     search: {
@@ -11,13 +28,18 @@ export const fetchData = async (searchQuery, page = 1) => {
       query: `/search/movie?query=${searchQuery}&include_adult=true&language=en-US`,
     },
     rated: {
-      default: '/movie/top_rated?language=en-US',
+      default: '',
       query: `/search/movie?query=${searchQuery}&include_adult=true&language=en-US`,
     },
   };
 
   if (searchQuery === '') {
-    params = routes[currentTab]?.default;
+    if (currentTab === 'rated') {
+      const accountId = await fetchAccountId();
+      params = `/account/${accountId}/rated/movies?language=en-US`;
+    } else {
+      params = routes[currentTab]?.default;
+    }
   } else {
     params = routes.search.query;
   }

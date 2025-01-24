@@ -1,14 +1,49 @@
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { Rate } from 'antd';
+import { fetchRating } from '../../api/fetchRating';
 import truncateText from '../../utils/truncateText';
 
 import noPosterImg from '../../img/noImage.png';
 import style from './MovieCard.module.css';
 
 const MovieCard = ({ moviesData, genresById }) => {
+  const [userRatings, setUserRatings] = useState({});
+  const [ratingQueue, setRatingQueue] = useState([]);
+
+  const userRatingHandler = (movieId, value) => {
+    setUserRatings((prev) => ({
+      ...prev,
+      [movieId]: value,
+    }));
+
+    setRatingQueue((prev) => [...prev, { movieId, value }]);
+  };
+
+  useEffect(() => {
+    const sendRatings = async () => {
+      if (ratingQueue.length === 0) return;
+
+      const [currentRating, ...remainingQueue] = ratingQueue;
+      const { movieId, value } = currentRating;
+
+      try {
+        await fetchRating(movieId, value);
+      } catch (error) {
+        console.error(`Ошибка при отправке рейтинга`, error);
+      } finally {
+        setRatingQueue(remainingQueue);
+      }
+    };
+
+    sendRatings();
+  }, [ratingQueue]);
+
   return (
     <>
       {moviesData.map((movie) => {
+        const userRating = userRatings[movie.id] || movie.vote_average;
+
         return (
           <div key={movie.id} className={style.card}>
             <img
@@ -26,7 +61,16 @@ const MovieCard = ({ moviesData, genresById }) => {
               </div>
               <p className={style.description}>{truncateText(movie.overview, 173)}</p>
               <div className={style.stars}>
-                <Rate count={10} disabled defaultValue={movie.vote_average} />
+                {movie.rating ? (
+                  <Rate
+                    value={movie.rating}
+                    disabled
+                    count={10}
+                    onChange={(value) => userRatingHandler(movie.id, value)}
+                  />
+                ) : (
+                  <Rate count={10} onChange={(value) => userRatingHandler(movie.id, value)} />
+                )}
               </div>
             </div>
             <div className={style.score}>
