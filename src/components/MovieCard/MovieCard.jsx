@@ -18,6 +18,7 @@ const MovieCard = ({ moviesData, genresById }) => {
     }));
 
     setRatingQueue((prev) => [...prev, { movieId, value }]);
+    localStorage.setItem(`${movieId}`, `${value}`);
   };
 
   useEffect(() => {
@@ -69,7 +70,11 @@ const MovieCard = ({ moviesData, genresById }) => {
                     onChange={(value) => userRatingHandler(movie.id, value)}
                   />
                 ) : (
-                  <Rate count={10} onChange={(value) => userRatingHandler(movie.id, value)} />
+                  <Rate
+                    count={10}
+                    value={localStorage.getItem(movie.id)}
+                    onChange={(value) => userRatingHandler(movie.id, value)}
+                  />
                 )}
               </div>
             </div>
