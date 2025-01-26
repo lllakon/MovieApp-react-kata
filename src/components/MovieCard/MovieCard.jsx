@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { Rate } from 'antd';
 import { fetchRating } from '../../api/fetchRating';
+import MovieVoteAverage from '../MovieVoteAverage/MovieVoteAverage';
 import truncateText from '../../utils/truncateText';
 
 import noPosterImg from '../../img/noImage.png';
@@ -18,7 +19,7 @@ const MovieCard = ({ moviesData, genresById }) => {
     }));
 
     setRatingQueue((prev) => [...prev, { movieId, value }]);
-    localStorage.setItem(`${movieId}`, `${value}`);
+    localStorage.setItem(movieId, value);
   };
 
   useEffect(() => {
@@ -43,7 +44,7 @@ const MovieCard = ({ moviesData, genresById }) => {
   return (
     <>
       {moviesData.map((movie) => {
-        const userRating = userRatings[movie.id] || movie.vote_average;
+        const userRating = parseFloat(localStorage.getItem(movie.id)) || userRatings[movie.id] || movie.vote_average;
 
         return (
           <div key={movie.id} className={style.card}>
@@ -62,25 +63,11 @@ const MovieCard = ({ moviesData, genresById }) => {
               </div>
               <p className={style.description}>{truncateText(movie.overview, 173)}</p>
               <div className={style.stars}>
-                {movie.rating ? (
-                  <Rate
-                    value={movie.rating}
-                    disabled
-                    count={10}
-                    onChange={(value) => userRatingHandler(movie.id, value)}
-                  />
-                ) : (
-                  <Rate
-                    count={10}
-                    value={localStorage.getItem(movie.id)}
-                    onChange={(value) => userRatingHandler(movie.id, value)}
-                  />
-                )}
+                <Rate count={10} value={userRating} onChange={(value) => userRatingHandler(movie.id, value)} />
               </div>
             </div>
-            <div className={style.score}>
-              <span>{movie.vote_average.toFixed(1)}</span>
-            </div>
+
+            <MovieVoteAverage voteAverage={movie.vote_average} />
           </div>
         );
       })}
@@ -100,7 +87,7 @@ MovieCard.propTypes = {
       vote_average: PropTypes.number.isRequired,
     })
   ).isRequired,
-  genresById: PropTypes.func,
+  genresById: PropTypes.func.isRequired,
 };
 
 export default MovieCard;

@@ -1,0 +1,16 @@
+.average {
+  position: absolute;
+  top: 10px;
+  right: 9px;
+  width: 30px;
+  height: 30px;
+
+  border-radius: 9999px;
+  font-size: 12px;
+}
+
+.average span {
+  position: absolute;
+  top: 6px;
+  left: 4.5px;
+}

@@ -9,7 +9,7 @@ export const fetchRating = async (movieId, rating) => {
       'Content-Type': 'application/json;charset=utf-8',
       accept: 'application/json',
     },
-		body: JSON.stringify({ value: rating }),
+    body: JSON.stringify({ value: rating }),
   });
 
   if (!response.ok) {

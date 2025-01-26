@@ -24,10 +24,8 @@ const MoviesList = ({ searchQuery, currentTab }) => {
 
       try {
         const res = await fetchData(searchQuery, currentPage, currentTab);
-        console.log(res);
         setMovies(res.results);
         setTotalPages(res.total_pages);
-        console.log(totalPages);
       } catch (error) {
         setError(error.message);
       } finally {
