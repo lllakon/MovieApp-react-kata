@@ -63,7 +63,20 @@ const MovieCard = ({ moviesData, genresById }) => {
               </div>
               <p className={style.description}>{truncateText(movie.overview, 173)}</p>
               <div className={style.stars}>
-                <Rate count={10} value={userRating} onChange={(value) => userRatingHandler(movie.id, value)} />
+                {movie.rating ? (
+                  <Rate
+                    value={movie.rating}
+                    disabled
+                    count={10}
+                    onChange={(value) => userRatingHandler(movie.id, value)}
+                  />
+                ) : (
+                  <Rate
+                    count={10}
+                    value={localStorage.getItem(movie.id)}
+                    onChange={(value) => userRatingHandler(movie.id, value)}
+                  />
+                )}
               </div>
             </div>
 
